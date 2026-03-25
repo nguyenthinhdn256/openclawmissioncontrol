@@ -1,6 +1,7 @@
 # OpenClaw Mission Control Kit
 
 This package contains:
+
 - research notes
 - a full Mission Control specification
 - a runnable Next.js skeleton

@@ -1,0 +1,58 @@
+Bạn đang xử lý PHẦN 1/8: FOUNDATION & CONFIG cho project OPENCLAW MISSION CONTROL.
+
+MỤC TIÊU PHẦN NÀY
+Tạo bộ khung nền tảng để project có thể chạy được ngay ở mức skeleton:
+- app shell
+- config constants
+- utility helpers
+- base layout
+- global styles
+- reusable shell container
+- navigation config
+- dashboard overview mock entry
+
+BẠN PHẢI BÁM ĐÚNG CẤU TRÚC
+src/
+  app/
+    layout.tsx
+    page.tsx
+    globals.css
+  components/
+    layout/
+    shared/
+  lib/
+    config/
+    utils/
+  types/
+  docs/
+
+FILES BẮT BUỘC TẠO / HOÀN THIỆN
+- src/app/layout.tsx
+- src/app/page.tsx
+- src/app/globals.css
+- src/components/layout/app-shell.tsx
+- src/components/layout/topbar.tsx
+- src/components/layout/sidebar.tsx
+- src/components/shared/page-header.tsx
+- src/components/shared/status-badge.tsx
+- src/lib/config/site.ts
+- src/lib/config/navigation.ts
+- src/lib/utils/cn.ts
+- src/types/navigation.ts
+- src/docs/foundation-notes.md
+
+YÊU CẦU CHI TIẾT
+- Tạo theme dark sáng sủa, dễ nhìn, thiên hướng control center
+- Sidebar rõ ràng, topbar gọn
+- Trang chủ hiển thị dashboard overview mock nhưng phải lấy dữ liệu mock từ config/constants thay vì hardcode lung tung
+- Không tạo business logic cho state engine ở phần này
+- Phải để sẵn slot để các phần sau cắm vào
+
+RÀNG BUỘC TƯƠNG THÍCH
+- Navigation phải có các route: Overview, Missions, Dispatches, QA Gate, Artifacts, Settings
+- Status badge phải hỗ trợ tối thiểu: idle, active, warning, success, danger, neutral
+- Layout shell phải tái sử dụng được cho tất cả pages sau này
+
+ĐẦU RA BẮT BUỘC
+- Code đầy đủ cho từng file
+- Ghi rõ file nào là nền cho các phần sau dùng lại

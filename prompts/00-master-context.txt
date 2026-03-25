@@ -1,0 +1,76 @@
+Bạn đang xây dựng một project tên là:
+
+OPENCLAW MISSION CONTROL
+
+MỤC TIÊU
+Tạo một dashboard Mission Control cho OpenClaw với giao diện thân thiện, dễ dùng, hiện đại, rõ ràng; code chia module để dễ chỉnh sửa và dễ mở rộng.
+
+STACK CỐ ĐỊNH
+- Next.js 14+
+- TypeScript
+- App Router
+- Tailwind CSS
+- Zod
+- React server/client components phù hợp
+- Không tự ý đổi stack
+- Không tự ý thêm Redux, Zustand, Prisma, Docker, shadcn setup generator, hoặc backend framework khác nếu prompt không yêu cầu
+
+CẤU TRÚC THƯ MỤC BẮT BUỘC
+src/
+  app/
+    layout.tsx
+    page.tsx
+    globals.css
+  components/
+    layout/
+    dashboard/
+    missions/
+    dispatches/
+    qa/
+    artifacts/
+    settings/
+    shared/
+  lib/
+    config/
+    contracts/
+    state/
+    dispatch/
+    qa/
+    seed/
+    utils/
+  types/
+  docs/
+
+NGUYÊN TẮC CHUNG
+1. Chỉ tạo / sửa file đúng theo đường dẫn được nêu trong prompt con.
+2. Mọi type dùng chung phải ưu tiên đặt ở `src/types` hoặc `src/lib/contracts`.
+3. Mọi logic dùng chung phải ưu tiên đặt ở `src/lib`.
+4. UI phải dùng lại component theo module, không hardcode nhồi tất cả vào 1 file.
+5. Giao diện phải thân thiện, rõ ràng, dễ bấm, dễ scan, có hierarchy tốt.
+6. Kết quả trả về phải đầy đủ code theo từng file.
+7. Không trả lời chung chung. Phải trả về đầy đủ nội dung file mới / file sửa.
+8. Không phá vỡ contract của các phần khác.
+9. Nếu phần của bạn phụ thuộc phần khác, phải bám theo spec dưới đây thay vì tự chế schema mới.
+
+MISSION CONTROL SPEC CỐT LÕI
+- MissionStatus: draft | planned | ready | in_progress | qa_review | blocked | failed | done | cancelled
+- DispatchStatus: queued | ready | assigned | working | submitted | qa_review | needs_revision | approved | blocked | failed | cancelled
+- QAGateDecision: pending | approved | needs_revision | blocked | failed | force_approved
+
+8 PHẦN CẦN CODE
+1. Foundation & Config
+2. Shared Contracts & Schemas
+3. Mission State Engine
+4. Dispatch Engine
+5. QA Gate Engine
+6. Dashboard UI Framework
+7. Dashboard Pages & Flows
+8. Integration, Seed Data, Testing & Docs Sync
+
+YÊU CẦU OUTPUT
+- Trả về code đầy đủ theo file
+- Cuối cùng ghi rõ:
+  - FILES CREATED
+  - FILES UPDATED
+  - DEPENDENCIES ON OTHER PARTS
+  - WHAT THE NEXT TAB SHOULD EXPECT

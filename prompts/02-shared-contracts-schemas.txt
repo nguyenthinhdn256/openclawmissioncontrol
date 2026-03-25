@@ -1,0 +1,46 @@
+Bạn đang xử lý PHẦN 2/8: SHARED CONTRACTS & SCHEMAS cho project OPENCLAW MISSION CONTROL.
+
+MỤC TIÊU PHẦN NÀY
+Tạo toàn bộ type dùng chung và Zod schemas làm nguồn chuẩn cho toàn project.
+
+FILES BẮT BUỘC
+- src/lib/contracts/mission.ts
+- src/lib/contracts/dispatch.ts
+- src/lib/contracts/qa.ts
+- src/lib/contracts/artifact.ts
+- src/lib/contracts/index.ts
+- src/types/mission.ts
+- src/types/dispatch.ts
+- src/types/qa.ts
+- src/types/artifact.ts
+- src/docs/contracts-notes.md
+
+SPEC BẮT BUỘC PHẢI GIỮ
+MissionStatus:
+draft | planned | ready | in_progress | qa_review | blocked | failed | done | cancelled
+
+DispatchStatus:
+queued | ready | assigned | working | submitted | qa_review | needs_revision | approved | blocked | failed | cancelled
+
+QAGateDecision:
+pending | approved | needs_revision | blocked | failed | force_approved
+
+YÊU CẦU CHI TIẾT
+- Mỗi domain phải có cả TS types và Zod schemas
+- Tạo re-export tập trung ở `src/lib/contracts/index.ts`
+- Field names phải ổn định, dễ dùng cho UI và engine
+- Có helper inferred types từ Zod khi hợp lý
+- Không thêm field vô nghĩa
+- Phải tương thích với 6 phần còn lại
+
+CÁC ENTITY TỐI THIỂU PHẢI CÓ
+- Mission
+- Dispatch
+- QAGateRecord
+- ArtifactRecord
+- TimelineEvent
+- Dashboard summary/read model types cơ bản nếu cần
+
+ĐẦU RA BẮT BUỘC
+- Code đầy đủ cho từng file
+- Nêu rõ contract nào là shared dependency cho tab khác

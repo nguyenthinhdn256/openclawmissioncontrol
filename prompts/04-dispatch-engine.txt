@@ -1,0 +1,35 @@
+Bạn đang xử lý PHẦN 4/8: DISPATCH ENGINE cho project OPENCLAW MISSION CONTROL.
+
+MỤC TIÊU PHẦN NÀY
+Tạo engine quản lý dispatch queue, assignment, dependency check, handoff format.
+
+FILES BẮT BUỘC
+- src/lib/dispatch/dispatch-engine.ts
+- src/lib/dispatch/dispatch-format.ts
+- src/lib/dispatch/dispatch-selectors.ts
+- src/lib/dispatch/index.ts
+- src/docs/dispatch-engine-notes.md
+
+PHỤ THUỘC ĐẦU VÀO
+- Contracts ở `src/lib/contracts`
+- Mission state logic có thể được tham chiếu nhưng không chép lại
+
+YÊU CẦU CHI TIẾT
+- Hàm `isDispatchReady`
+- Hàm `assignDispatch`
+- Hàm `submitDispatch`
+- Hàm `approveDispatch`
+- Hàm `requestDispatchRevision`
+- Hàm `blockDispatch`
+- Hàm `serializeDispatchEnvelope`
+- Selector cho queue summary theo status / domain / assignee
+- Có dependency guard
+
+RÀNG BUỘC
+- Không cho approve nếu chưa submit
+- Không cho start nếu dependency chưa approved hoặc condition tương đương chưa đạt
+- Dispatch envelope phải rõ input/output/file scope/validation/handoff
+
+ĐẦU RA BẮT BUỘC
+- Code đầy đủ
+- Nêu rõ format output để tab QA và dashboard có thể đọc

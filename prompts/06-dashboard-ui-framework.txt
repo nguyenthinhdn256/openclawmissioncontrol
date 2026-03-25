@@ -13,3 +13,23 @@ FILES BẮT BUỘC
 - src/components/artifacts/artifact-card.tsx
 - src/components/settings/settings-panel.tsx
 - src/docs/dashboard-ui-framework-notes.md
+
+PHỤ THUỘC ĐẦU VÀO
+- shared status badge
+- contracts types
+
+YÊU CẦU CHI TIẾT
+- UI phải dùng lại được
+- Style thân thiện, spacing tốt, dễ quét thông tin
+- Mission card / dispatch row / qa review card phải sẵn sàng nhận props typed
+- Timeline feed phải hỗ trợ event list
+- Không nhồi logic dữ liệu phức tạp vào component
+
+RÀNG BUỘC
+- Không thêm thư viện UI ngoài stack cho phép
+- Không phá app shell
+- Phải dễ cho tab pages ghép lại thành màn hình hoàn chỉnh
+
+ĐẦU RA BẮT BUỘC
+- Code đầy đủ
+- Nêu rõ component nào page layer sẽ dùng

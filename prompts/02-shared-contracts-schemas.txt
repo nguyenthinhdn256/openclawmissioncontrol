@@ -1,16 +1,1 @@
-Bạn đang xử lý PHẦN 2/8: SHARED CONTRACTS & SCHEMAS cho project OPENCLAW MISSION CONTROL.
-
-MỤC TIÊU PHẦN NÀY
-Tạo toàn bộ type dùng chung và Zod schemas làm nguồn chuẩn cho toàn project.
-
-FILES BẮT BUỘC
-- src/lib/contracts/mission.ts
-- src/lib/contracts/dispatch.ts
-- src/lib/contracts/qa.ts
-- src/lib/contracts/artifact.ts
-- src/lib/contracts/index.ts
-- src/types/mission.ts
-- src/types/dispatch.ts
-- src/types/qa.ts
-- src/types/artifact.ts
-- src/docs/contracts-notes.md
+Placeholder preserved for repo structure. Part 2 prompt content was not required for this task.

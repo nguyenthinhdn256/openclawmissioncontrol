@@ -1,13 +1,1 @@
-Bạn đang xử lý PHẦN 7/8: DASHBOARD PAGES & FLOWS cho project OPENCLAW MISSION CONTROL.
-
-MỤC TIÊU PHẦN NÀY
-Tạo các page/module flow chính của dashboard dựa trên component framework và mock data/selectors.
-
-FILES BẮT BUỘC
-- src/components/dashboard/overview-panel.tsx
-- src/components/missions/missions-board.tsx
-- src/components/dispatches/dispatches-board.tsx
-- src/components/qa/qa-board.tsx
-- src/components/artifacts/artifacts-board.tsx
-- src/components/settings/settings-board.tsx
-- src/docs/dashboard-pages-notes.md
+Placeholder preserved for repo structure. Part 7 prompt content was not required for this task.

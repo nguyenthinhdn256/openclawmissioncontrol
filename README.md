@@ -1,25 +1,14 @@
-# OpenClaw Mission Control Kit
+# OpenClaw Mission Control
 
-This package contains:
-- research notes
-- a full Mission Control specification
-- a runnable Next.js skeleton
-- coordinated prompts for parallel coding
-- a one-time install command file
+Mission Control dashboard for OpenClaw built with Next.js, TypeScript, Tailwind CSS, and Zod.
 
-## Suggested flow
-1. Extract the zip.
-2. Open a terminal in the project root.
-3. Run the commands in `install-once.txt`.
-4. Start the skeleton with `npm run dev`.
-5. Open the files in `prompts/` and run each prompt in a separate ChatGPT tab.
-6. Merge the returned files into the exact matching paths.
+## Included
+- Modular app shell
+- Dashboard UI framework components
+- Typed mission, dispatch, QA, artifact models
+- Mock-driven pages for overview, missions, dispatches, QA, artifacts, and settings
 
-## Folder overview
-- `docs/`: research + spec
-- `prompts/`: master context + 8 coordinated prompts
-- `src/`: modular app skeleton plus contracts, dispatch, and QA logic
-- `install-once.txt`: dependency installation commands
-
-## Important
-This project skeleton is intentionally lightweight and runnable. The deeper domain logic is designed to be filled in through the 8 parallel prompts while staying aligned to one shared specification.
+## Run
+1. Open terminal at project root
+2. Run commands in `install-once.txt`
+3. Start with `npm run dev`

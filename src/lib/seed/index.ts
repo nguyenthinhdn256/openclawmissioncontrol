@@ -1,1 +1,251 @@
-export {};
+import type { ArtifactItem } from "@/types/artifact";
+import type { DispatchItem } from "@/types/dispatch";
+import type { MissionItem, MissionTimelineEvent } from "@/types/mission";
+import type { QAReviewItem } from "@/types/qa";
+
+export const overviewMetrics = [
+  {
+    label: "Active missions",
+    value: "12",
+    helper: "Mission cards can later swap this mock with selectors.",
+    badge: "live",
+    tone: "active" as const,
+  },
+  {
+    label: "Ready dispatches",
+    value: "28",
+    helper: "Dispatch queue UI is scaffolded for page-layer assembly.",
+    badge: "ready",
+    tone: "success" as const,
+  },
+  {
+    label: "QA pending",
+    value: "4",
+    helper: "QA review cards are ready for decisions and evidence.",
+    badge: "qa_review",
+    tone: "warning" as const,
+  },
+  {
+    label: "Critical blockers",
+    value: "1",
+    helper: "Shared status badges keep risk scanning consistent.",
+    badge: "blocked",
+    tone: "danger" as const,
+  },
+];
+
+export const activityFeed: MissionTimelineEvent[] = [
+  {
+    id: "evt-1",
+    title: "Mission contracts synchronized",
+    detail: "Shared contract layer now aligns mission, dispatch, QA, and artifact schemas.",
+    actor: "Commander",
+    at: "2026-03-25 21:10",
+    status: "approved",
+  },
+  {
+    id: "evt-2",
+    title: "Dispatch handoff submitted",
+    detail: "Executor delivered UI framework components for dashboard assembly.",
+    actor: "Executor",
+    at: "2026-03-25 21:24",
+    status: "submitted",
+  },
+  {
+    id: "evt-3",
+    title: "QA review queued",
+    detail: "Page layer can now consume typed cards and rows without extra UI glue.",
+    actor: "QA Operator",
+    at: "2026-03-25 21:32",
+    status: "qa_review",
+  },
+];
+
+export const missionsMock: MissionItem[] = [
+  {
+    id: "mis-001",
+    title: "Dashboard UI Framework",
+    summary: "Create reusable dashboard cards and rows for the operator console.",
+    description: "Build modular UI components for overview, missions, dispatches, QA, artifacts, and settings.",
+    objective: "Give page layer a typed and reusable presentation toolkit.",
+    status: "in_progress",
+    priority: "high",
+    owner: "Frontend Operator",
+    lane: "UI",
+    progress: 78,
+    tags: ["dashboard", "ui", "typed-props"],
+    blockers: [],
+    dispatchCount: 5,
+    completedDispatchCount: 4,
+    artifactCount: 3,
+    updatedAt: "2026-03-25 21:34",
+    dueAt: "2026-03-26 09:00",
+  },
+  {
+    id: "mis-002",
+    title: "QA Gate Engine",
+    summary: "Formalize QA decisions, evidence, and review outcomes.",
+    description: "Support pending, approved, revision, blocked, failed, and force-approved outcomes.",
+    objective: "Keep reviews auditable and easy to scan.",
+    status: "qa_review",
+    priority: "critical",
+    owner: "QA Operator",
+    lane: "Governance",
+    progress: 62,
+    tags: ["qa", "rules", "audits"],
+    blockers: ["Need final evidence links from executor"],
+    dispatchCount: 4,
+    completedDispatchCount: 2,
+    artifactCount: 2,
+    updatedAt: "2026-03-25 21:21",
+  },
+  {
+    id: "mis-003",
+    title: "Seed Data & Docs Sync",
+    summary: "Keep mock data and notes aligned with live UI framework.",
+    description: "Prepare pages for future real selectors while keeping development pleasant.",
+    objective: "Reduce friction for the next page integration tab.",
+    status: "ready",
+    priority: "medium",
+    owner: "Integrator",
+    lane: "Integration",
+    progress: 18,
+    tags: ["seed", "docs"],
+    blockers: [],
+    dispatchCount: 2,
+    completedDispatchCount: 0,
+    artifactCount: 1,
+    updatedAt: "2026-03-25 20:55",
+  },
+];
+
+export const dispatchesMock: DispatchItem[] = [
+  {
+    id: "dis-101",
+    missionId: "mis-001",
+    title: "Build mission summary card",
+    summary: "Typed card with progress, status, owner, blockers, and tags.",
+    assignee: "Frontend Operator",
+    status: "approved",
+    scope: ["src/components/missions/mission-card.tsx"],
+    dependencies: [],
+    attemptCount: 1,
+    updatedAt: "2026-03-25 21:19",
+    outputSummary: "Card finalized and ready for page composition.",
+  },
+  {
+    id: "dis-102",
+    missionId: "mis-001",
+    title: "Build dispatch row",
+    summary: "Queue-ready row with assignee, dependencies, attempts, and scope chips.",
+    assignee: "Frontend Operator",
+    status: "working",
+    scope: ["src/components/dispatches/dispatch-row.tsx"],
+    dependencies: ["dis-101"],
+    attemptCount: 2,
+    updatedAt: "2026-03-25 21:31",
+    dueAt: "2026-03-25 22:00",
+  },
+  {
+    id: "dis-103",
+    missionId: "mis-002",
+    title: "Prepare QA review card",
+    summary: "Review surface for checklists, evidence, decision, and blockers.",
+    assignee: "QA Operator",
+    status: "qa_review",
+    scope: ["src/components/qa/qa-review-card.tsx"],
+    dependencies: [],
+    attemptCount: 1,
+    updatedAt: "2026-03-25 21:28",
+  },
+];
+
+export const qaReviewsMock: QAReviewItem[] = [
+  {
+    id: "qa-1",
+    missionId: "mis-001",
+    dispatchId: "dis-102",
+    title: "Dispatch Row review",
+    reviewer: "QA Operator",
+    submittedAt: "2026-03-25 21:26",
+    updatedAt: "2026-03-25 21:33",
+    decision: "needs_revision",
+    checklist: [
+      { label: "Typed props used", done: true },
+      { label: "Spacing is readable", done: true },
+      { label: "Ready for page-layer reuse", done: false },
+    ],
+    evidence: ["Visual comparison note", "Props contract checklist"],
+    notes: ["Increase information density without reducing scanability."],
+    blocker: "Need final page-level validation.",
+  },
+  {
+    id: "qa-2",
+    missionId: "mis-001",
+    dispatchId: "dis-101",
+    title: "Mission Card review",
+    reviewer: "Commander",
+    submittedAt: "2026-03-25 21:14",
+    updatedAt: "2026-03-25 21:18",
+    decision: "approved",
+    checklist: [
+      { label: "Mission status visible", done: true },
+      { label: "Progress visible", done: true },
+      { label: "Blockers visible", done: true },
+    ],
+    evidence: ["Component props reviewed", "UI scan pass complete"],
+    notes: ["Ready for missions page assembly."],
+  },
+];
+
+export const artifactsMock: ArtifactItem[] = [
+  {
+    id: "art-1",
+    missionId: "mis-001",
+    dispatchId: "dis-101",
+    title: "Mission card component",
+    description: "Reusable presentation card for mission summaries.",
+    kind: "ui",
+    status: "approved",
+    owner: "Frontend Operator",
+    updatedAt: "2026-03-25 21:18",
+    path: "src/components/missions/mission-card.tsx",
+    sizeLabel: "2.1 KB",
+    tags: ["component", "mission"],
+  },
+  {
+    id: "art-2",
+    missionId: "mis-001",
+    dispatchId: "dis-103",
+    title: "Dashboard UI notes",
+    description: "Notes for page-layer integration and reuse points.",
+    kind: "report",
+    status: "review",
+    owner: "QA Operator",
+    updatedAt: "2026-03-25 21:34",
+    path: "src/docs/dashboard-ui-framework-notes.md",
+    sizeLabel: "1.4 KB",
+    tags: ["docs", "handoff"],
+  },
+];
+
+export const settingsPanelsMock = [
+  {
+    title: "Environment posture",
+    description: "Static system posture summary for the current dashboard shell.",
+    items: [
+      { label: "Gateway route", value: "Prepared" },
+      { label: "Mission state source", value: "Mock + typed contracts" },
+      { label: "UI framework status", value: "Ready for page composition" },
+    ],
+  },
+  {
+    title: "Policy controls",
+    description: "Human-readable notes for future controls and rules.",
+    items: [
+      { label: "Manual override traceability", value: "Required" },
+      { label: "QA evidence before approval", value: "Required unless force-approved" },
+      { label: "Cross-module contracts", value: "Must use src/lib/contracts" },
+    ],
+  },
+];

@@ -1,104 +1,25 @@
 import { z } from "zod";
+import { missionStatuses } from "@/types/mission";
 
-export const missionStatusValues = [
-  "draft",
-  "planned",
-  "ready",
-  "in_progress",
-  "qa_review",
-  "blocked",
-  "failed",
-  "done",
-  "cancelled",
-] as const;
-
-export const missionPriorityValues = ["low", "normal", "high", "critical"] as const;
-export const missionOwnerRoleValues = ["commander", "dispatcher"] as const;
-export const timelineEntityTypeValues = ["mission", "dispatch", "qa", "artifact", "system"] as const;
-export const timelineEventTypeValues = [
-  "created",
-  "updated",
-  "assigned",
-  "started",
-  "submitted",
-  "approved",
-  "rejected",
-  "blocked",
-  "failed",
-  "retried",
-  "cancelled",
-  "note_added",
-] as const;
-
-export const missionStatusSchema = z.enum(missionStatusValues);
-export const missionPrioritySchema = z.enum(missionPriorityValues);
-export const missionOwnerRoleSchema = z.enum(missionOwnerRoleValues);
-export const timelineEntityTypeSchema = z.enum(timelineEntityTypeValues);
-export const timelineEventTypeSchema = z.enum(timelineEventTypeValues);
-
-export const missionProgressSchema = z.object({
-  totalDispatches: z.number().int().nonnegative(),
-  completedDispatches: z.number().int().nonnegative(),
-  approvedDispatches: z.number().int().nonnegative(),
-  failedDispatches: z.number().int().nonnegative(),
-});
+export const missionStatusSchema = z.enum(missionStatuses);
+export const missionPrioritySchema = z.enum(["low", "medium", "high", "critical"]);
 
 export const missionSchema = z.object({
-  id: z.string().min(1),
-  code: z.string().min(1),
-  title: z.string().min(1),
-  summary: z.string().min(1),
-  objective: z.string().min(1),
-  scope: z.array(z.string()).default([]),
+  id: z.string(),
+  title: z.string(),
+  summary: z.string(),
+  description: z.string(),
+  objective: z.string(),
   status: missionStatusSchema,
   priority: missionPrioritySchema,
-  createdAt: z.string().min(1),
-  updatedAt: z.string().min(1),
-  createdBy: z.string().min(1),
-  ownerRole: missionOwnerRoleSchema,
-  tags: z.array(z.string()).default([]),
-  dependencyIds: z.array(z.string()).default([]),
-  dispatchIds: z.array(z.string()).default([]),
-  artifactIds: z.array(z.string()).default([]),
-  qaGateDecision: z.enum([
-    "pending",
-    "approved",
-    "needs_revision",
-    "blocked",
-    "failed",
-    "force_approved",
-  ]),
-  progress: missionProgressSchema,
+  owner: z.string(),
+  lane: z.string(),
+  progress: z.number().min(0).max(100),
+  tags: z.array(z.string()),
+  blockers: z.array(z.string()),
+  dispatchCount: z.number().int().nonnegative(),
+  completedDispatchCount: z.number().int().nonnegative(),
+  artifactCount: z.number().int().nonnegative(),
+  updatedAt: z.string(),
+  dueAt: z.string().optional(),
 });
-
-export const timelineEventSchema = z.object({
-  id: z.string().min(1),
-  entityType: timelineEntityTypeSchema,
-  entityId: z.string().min(1),
-  type: timelineEventTypeSchema,
-  actor: z.string().min(1),
-  message: z.string().min(1),
-  createdAt: z.string().min(1),
-  meta: z.record(z.string(), z.unknown()).optional(),
-});
-
-export const missionStatusCountSchema = z.record(missionStatusSchema, z.number().int().nonnegative());
-
-export const missionBoardSummarySchema = z.object({
-  total: z.number().int().nonnegative(),
-  byStatus: missionStatusCountSchema,
-  blockedCount: z.number().int().nonnegative(),
-  readyCount: z.number().int().nonnegative(),
-  doneCount: z.number().int().nonnegative(),
-});
-
-export type MissionStatus = z.infer<typeof missionStatusSchema>;
-export type MissionPriority = z.infer<typeof missionPrioritySchema>;
-export type MissionOwnerRole = z.infer<typeof missionOwnerRoleSchema>;
-export type TimelineEntityType = z.infer<typeof timelineEntityTypeSchema>;
-export type TimelineEventType = z.infer<typeof timelineEventTypeSchema>;
-export type MissionProgress = z.infer<typeof missionProgressSchema>;
-export type Mission = z.infer<typeof missionSchema>;
-export type TimelineEvent = z.infer<typeof timelineEventSchema>;
-export type MissionStatusCount = z.infer<typeof missionStatusCountSchema>;
-export type MissionBoardSummary = z.infer<typeof missionBoardSummarySchema>;

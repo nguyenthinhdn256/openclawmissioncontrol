@@ -1,14 +1,22 @@
 import { PageHeader } from "@/components/shared/page-header";
+import { SettingsPanel } from "@/components/settings/settings-panel";
 import { StatusBadge } from "@/components/shared/status-badge";
+import { settingsPanelsMock } from "@/lib/seed";
 
 export default function SettingsPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <PageHeader
         eyebrow="Settings"
-        title="Configuration & Policy"
-        description="This route is reserved and ready for the dashboard-pages tab to mount environment, policy, and health settings."
-        actions={<StatusBadge tone="neutral">slot prepared</StatusBadge>}
+        title="System posture and policy notes"
+        description="SettingsPanel groups environment, policy, and workflow information without binding to complex settings state."
+        badge={<StatusBadge label="slot prepared" tone="neutral" />}
+      />
+
+      <SettingsPanel
+        title="Control surface"
+        description="These sections show how the page layer can compose grouped settings information using one reusable component."
+        sections={settingsPanelsMock}
       />
     </div>
   );

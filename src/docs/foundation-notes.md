@@ -23,15 +23,9 @@ This layer establishes the reusable visual and structural baseline for OpenClaw 
 - **Status badge**: mission, dispatch, QA, and artifact UI can all reuse the same tone system.
 - **Page header**: board pages can use the same title/eyebrow/action layout.
 - **Global theme**: future component tabs should stay within the same dark control-center visual language.
-- **Homepage config mock**: later tabs can swap config-driven mock data with selectors or seed data without rewriting the overview layout.
 
 ## Intentional boundaries
 - No mission state engine logic is implemented here.
 - No dispatch logic is implemented here.
 - No QA decision logic is implemented here.
-- This layer only prepares slots and primitives for the later 7 parts.
-
-## What the next tabs should expect
-- Routes already exist conceptually in navigation.
-- Layout primitives are stable and ready to consume.
-- Overview content is mock-driven from config, not scattered in UI files.
+- This layer only prepares slots and primitives for the later tabs.

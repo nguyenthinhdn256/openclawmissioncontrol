@@ -14,9 +14,6 @@ Tạo bộ khung nền tảng để project có thể chạy được ngay ở m
 BẠN PHẢI BÁM ĐÚNG CẤU TRÚC
 src/
   app/
-    layout.tsx
-    page.tsx
-    globals.css
   components/
     layout/
     shared/
@@ -40,19 +37,3 @@ FILES BẮT BUỘC TẠO / HOÀN THIỆN
 - src/lib/utils/cn.ts
 - src/types/navigation.ts
 - src/docs/foundation-notes.md
-
-YÊU CẦU CHI TIẾT
-- Tạo theme dark sáng sủa, dễ nhìn, thiên hướng control center
-- Sidebar rõ ràng, topbar gọn
-- Trang chủ hiển thị dashboard overview mock nhưng phải lấy dữ liệu mock từ config/constants thay vì hardcode lung tung
-- Không tạo business logic cho state engine ở phần này
-- Phải để sẵn slot để các phần sau cắm vào
-
-RÀNG BUỘC TƯƠNG THÍCH
-- Navigation phải có các route: Overview, Missions, Dispatches, QA Gate, Artifacts, Settings
-- Status badge phải hỗ trợ tối thiểu: idle, active, warning, success, danger, neutral
-- Layout shell phải tái sử dụng được cho tất cả pages sau này
-
-ĐẦU RA BẮT BUỘC
-- Code đầy đủ cho từng file
-- Ghi rõ file nào là nền cho các phần sau dùng lại

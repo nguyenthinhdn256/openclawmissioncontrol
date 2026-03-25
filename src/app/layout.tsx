@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import "./globals.css";
 
 import { AppShell } from "@/components/layout/app-shell";
 import { siteConfig } from "@/lib/config/site";
+
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body>
         <AppShell>{children}</AppShell>
       </body>

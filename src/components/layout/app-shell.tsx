@@ -5,16 +5,12 @@ import { Topbar } from "@/components/layout/topbar";
 
 export function AppShell({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen text-slate-100">
-      <div className="flex min-h-screen flex-col md:flex-row">
+    <div className="min-h-screen bg-transparent text-slate-50">
+      <div className="mx-auto grid min-h-screen max-w-[1600px] grid-cols-1 gap-6 px-4 py-4 lg:grid-cols-[320px_minmax(0,1fr)] xl:px-6">
         <Sidebar />
-
-        <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex min-w-0 flex-col gap-6">
           <Topbar />
-
-          <main className="flex-1 px-4 pb-8 pt-6 sm:px-6 lg:px-8">
-            <div className="mx-auto w-full max-w-7xl">{children}</div>
-          </main>
+          <main className="min-w-0 flex-1">{children}</main>
         </div>
       </div>
     </div>

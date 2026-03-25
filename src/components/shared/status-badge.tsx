@@ -1,17 +1,43 @@
-type Tone = "idle" | "active" | "warning" | "success" | "danger" | "neutral";
+import type { ReactNode } from "react";
 
-const tones: Record<Tone, string> = {
-  idle: "bg-slate-800 text-slate-300 ring-slate-700",
-  active: "bg-blue-500/15 text-blue-300 ring-blue-500/30",
-  warning: "bg-amber-500/15 text-amber-300 ring-amber-500/30",
-  success: "bg-emerald-500/15 text-emerald-300 ring-emerald-500/30",
-  danger: "bg-rose-500/15 text-rose-300 ring-rose-500/30",
-  neutral: "bg-violet-500/15 text-violet-300 ring-violet-500/30"
+import { cn } from "@/lib/utils/cn";
+
+export type StatusBadgeTone =
+  | "idle"
+  | "active"
+  | "warning"
+  | "success"
+  | "danger"
+  | "neutral";
+
+const tones: Record<StatusBadgeTone, string> = {
+  idle: "border-slate-700/70 bg-slate-800/80 text-slate-300",
+  active: "border-sky-400/30 bg-sky-400/12 text-sky-200",
+  warning: "border-amber-400/30 bg-amber-400/12 text-amber-200",
+  success: "border-emerald-400/30 bg-emerald-400/12 text-emerald-200",
+  danger: "border-rose-400/30 bg-rose-400/12 text-rose-200",
+  neutral: "border-violet-400/30 bg-violet-400/12 text-violet-200",
 };
 
-export function StatusBadge({ tone, children }: { tone: Tone; children: React.ReactNode }) {
+type StatusBadgeProps = {
+  tone: StatusBadgeTone;
+  children: ReactNode;
+  className?: string;
+};
+
+export function StatusBadge({
+  tone,
+  children,
+  className,
+}: StatusBadgeProps) {
   return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset ${tones[tone]}`}>
+    <span
+      className={cn(
+        "inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium tracking-wide",
+        tones[tone],
+        className,
+      )}
+    >
       {children}
     </span>
   );

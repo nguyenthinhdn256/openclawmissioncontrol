@@ -14,6 +14,7 @@ Mission Control is the operator-facing orchestration layer for OpenClaw. It prov
 
 ### 2.1 Commander
 Owns overall mission outcome.
+
 Permissions:
 - create / edit / cancel missions
 - approve planning
@@ -23,6 +24,7 @@ Permissions:
 
 ### 2.2 Dispatcher
 Owns task decomposition and routing.
+
 Permissions:
 - create dispatches
 - assign lane / agent
@@ -31,6 +33,7 @@ Permissions:
 
 ### 2.3 Executor
 Completes assigned dispatches.
+
 Permissions:
 - claim execution
 - submit artifacts
@@ -40,6 +43,7 @@ Permissions:
 
 ### 2.4 QA Operator
 Reviews and validates outputs.
+
 Permissions:
 - run QA checks
 - approve / reject / request revision
@@ -48,6 +52,7 @@ Permissions:
 
 ### 2.5 Observer
 Read-only visibility for operators/stakeholders.
+
 Permissions:
 - read missions
 - read dispatches
@@ -55,7 +60,6 @@ Permissions:
 - read events and artifacts
 
 ## 3. Global Rules
-
 1. Every mission must have exactly one lifecycle state.
 2. Every dispatch must belong to one mission.
 3. No dispatch may move to `approved` without QA evidence unless explicitly force-approved by Commander.
@@ -83,6 +87,7 @@ export type MissionStatus =
 ```
 
 ### Mission entity
+
 ```ts
 export interface Mission {
   id: string;
@@ -129,6 +134,7 @@ export type DispatchStatus =
 ```
 
 ### Dispatch entity
+
 ```ts
 export interface Dispatch {
   id: string;
@@ -224,10 +230,7 @@ Every dispatch must be serializable into one canonical format:
     "invalid transitions return structured errors",
     "selectors derive dashboard counts correctly"
   ],
-  "validation_commands": [
-    "npm run lint",
-    "npm run typecheck"
-  ],
+  "validation_commands": ["npm run lint", "npm run typecheck"],
   "handoff_contract": {
     "produces": ["mission lifecycle API", "mission selectors"],
     "consumed_by": ["dashboard_pages", "qa"]
@@ -281,7 +284,6 @@ export interface TimelineEvent {
 ```
 
 ## 10. Recommended Dashboard Surfaces
-
 - Overview
 - Missions board
 - Dispatch queue
@@ -294,7 +296,6 @@ export interface TimelineEvent {
 ## 11. Suggested Code Split
 
 Total implementation areas: **8**
-
 1. Foundation & Config
 2. Shared Contracts & Schemas
 3. Mission State Engine

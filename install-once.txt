@@ -1,5 +1,4 @@
 # Run once from the project root
-
 npm install
 npm install zod clsx tailwind-merge lucide-react
 npm install -D typescript @types/node @types/react @types/react-dom

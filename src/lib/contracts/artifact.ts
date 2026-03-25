@@ -1,50 +1,73 @@
 import { z } from "zod";
 
-const NonEmptyStringSchema = z.string().min(1);
-const TimestampSchema = z.string().min(1);
+export const artifactStatusValues = [
+  "pending",
+  "generated",
+  "verified",
+  "archived",
+  "failed",
+] as const;
 
-export const ARTIFACT_KINDS = ["doc", "code", "test", "build", "log", "evidence"] as const;
-export const ARTIFACT_STATUSES = ["draft", "ready", "approved"] as const;
+export const artifactKindValues = [
+  "code_patch",
+  "document",
+  "test_report",
+  "qa_evidence",
+  "log_bundle",
+  "archive",
+  "other",
+] as const;
 
-export const ArtifactKindSchema = z.enum(ARTIFACT_KINDS);
-export const ArtifactStatusSchema = z.enum(ARTIFACT_STATUSES);
+export type ArtifactStatus = (typeof artifactStatusValues)[number];
+export type ArtifactKind = (typeof artifactKindValues)[number];
 
-export const ArtifactRecordSchema = z
-  .object({
-    id: NonEmptyStringSchema,
-    missionId: NonEmptyStringSchema,
-    dispatchId: NonEmptyStringSchema.optional(),
-    name: NonEmptyStringSchema,
-    kind: ArtifactKindSchema,
-    status: ArtifactStatusSchema,
-    path: NonEmptyStringSchema,
-    summary: z.string().optional(),
-    createdAt: TimestampSchema,
-    updatedAt: TimestampSchema,
-    tags: z.array(NonEmptyStringSchema),
-    mimeType: z.string().optional(),
-    sizeBytes: z.number().int().nonnegative().optional(),
-  })
-  .strict();
+export interface ArtifactRecord {
+  id: string;
+  missionId?: string;
+  dispatchId?: string;
+  name: string;
+  path: string;
+  kind: ArtifactKind;
+  status: ArtifactStatus;
+  createdAt: string;
+  updatedAt: string;
+  note?: string;
+}
 
-export const ArtifactKindCountSchema = z
-  .object({
-    kind: ArtifactKindSchema,
-    count: z.number().int().nonnegative(),
-  })
-  .strict();
+export type ArtifactKindCount = Record<ArtifactKind, number>;
 
-export const ArtifactLibrarySummarySchema = z
-  .object({
-    total: z.number().int().nonnegative(),
-    ready: z.number().int().nonnegative(),
-    approved: z.number().int().nonnegative(),
-    byKind: z.array(ArtifactKindCountSchema),
-  })
-  .strict();
+export interface ArtifactLibrarySummary {
+  total: number;
+  generated: number;
+  verified: number;
+  failed: number;
+  byKind: ArtifactKindCount;
+}
 
-export type ArtifactKind = z.infer<typeof ArtifactKindSchema>;
-export type ArtifactStatus = z.infer<typeof ArtifactStatusSchema>;
-export type ArtifactRecord = z.infer<typeof ArtifactRecordSchema>;
-export type ArtifactKindCount = z.infer<typeof ArtifactKindCountSchema>;
-export type ArtifactLibrarySummary = z.infer<typeof ArtifactLibrarySummarySchema>;
+export const artifactStatusSchema = z.enum(artifactStatusValues);
+export const artifactKindSchema = z.enum(artifactKindValues);
+
+export const artifactRecordSchema = z.object({
+  id: z.string().min(1),
+  missionId: z.string().min(1).optional(),
+  dispatchId: z.string().min(1).optional(),
+  name: z.string().min(1),
+  path: z.string().min(1),
+  kind: artifactKindSchema,
+  status: artifactStatusSchema,
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
+  note: z.string().optional(),
+});
+
+export function createEmptyArtifactKindCount(): ArtifactKindCount {
+  return {
+    code_patch: 0,
+    document: 0,
+    test_report: 0,
+    qa_evidence: 0,
+    log_bundle: 0,
+    archive: 0,
+    other: 0,
+  };
+}

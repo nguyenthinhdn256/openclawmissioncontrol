@@ -1,10 +1,8 @@
 import { z } from "zod";
-import { QAGateDecisionSchema } from "@/lib/contracts/qa";
+import type { QAGateDecision } from "./qa";
+import { qaGateDecisionSchema } from "./qa";
 
-const NonEmptyStringSchema = z.string().min(1);
-const TimestampSchema = z.string().min(1);
-
-export const MISSION_STATUSES = [
+export const missionStatusValues = [
   "draft",
   "planned",
   "ready",
@@ -16,10 +14,10 @@ export const MISSION_STATUSES = [
   "cancelled",
 ] as const;
 
-export const MISSION_PRIORITIES = ["low", "normal", "high", "critical"] as const;
-export const MISSION_OWNER_ROLES = ["commander", "dispatcher"] as const;
-export const TIMELINE_ENTITY_TYPES = ["mission", "dispatch", "qa", "artifact", "system"] as const;
-export const TIMELINE_EVENT_TYPES = [
+export const missionPriorityValues = ["low", "normal", "high", "critical"] as const;
+export const missionOwnerRoleValues = ["commander", "dispatcher"] as const;
+export const timelineEntityTypeValues = ["mission", "dispatch", "qa", "artifact", "system"] as const;
+export const timelineEventTypeValues = [
   "created",
   "updated",
   "assigned",
@@ -34,85 +32,134 @@ export const TIMELINE_EVENT_TYPES = [
   "note_added",
 ] as const;
 
-export const MissionStatusSchema = z.enum(MISSION_STATUSES);
-export const MissionPrioritySchema = z.enum(MISSION_PRIORITIES);
-export const MissionOwnerRoleSchema = z.enum(MISSION_OWNER_ROLES);
-export const TimelineEntityTypeSchema = z.enum(TIMELINE_ENTITY_TYPES);
-export const TimelineEventTypeSchema = z.enum(TIMELINE_EVENT_TYPES);
+export type MissionStatus = (typeof missionStatusValues)[number];
+export type MissionPriority = (typeof missionPriorityValues)[number];
+export type MissionOwnerRole = (typeof missionOwnerRoleValues)[number];
+export type TimelineEntityType = (typeof timelineEntityTypeValues)[number];
+export type TimelineEventType = (typeof timelineEventTypeValues)[number];
 
-export const MissionProgressSchema = z
-  .object({
-    totalDispatches: z.number().int().nonnegative(),
-    completedDispatches: z.number().int().nonnegative(),
-    approvedDispatches: z.number().int().nonnegative(),
-    failedDispatches: z.number().int().nonnegative(),
-  })
-  .strict();
+export interface MissionProgress {
+  totalDispatches: number;
+  completedDispatches: number;
+  approvedDispatches: number;
+  failedDispatches: number;
+}
 
-export const TimelineEventSchema = z
-  .object({
-    id: NonEmptyStringSchema,
-    entityType: TimelineEntityTypeSchema,
-    entityId: NonEmptyStringSchema,
-    type: TimelineEventTypeSchema,
-    actor: NonEmptyStringSchema,
-    message: NonEmptyStringSchema,
-    createdAt: TimestampSchema,
-    meta: z.record(z.string(), z.unknown()).optional(),
-  })
-  .strict();
+export interface Mission {
+  id: string;
+  code: string;
+  title: string;
+  summary: string;
+  objective: string;
+  scope: string[];
+  status: MissionStatus;
+  priority: MissionPriority;
+  createdAt: string;
+  updatedAt: string;
+  createdBy: string;
+  ownerRole: MissionOwnerRole;
+  tags: string[];
+  dependencyIds: string[];
+  dispatchIds: string[];
+  artifactIds: string[];
+  qaGate: QAGateDecision;
+  progress: MissionProgress;
+  dueAt?: string;
+  startedAt?: string;
+  completedAt?: string;
+  blockedReason?: string | null;
+}
 
-export const MissionSchema = z
-  .object({
-    id: NonEmptyStringSchema,
-    code: NonEmptyStringSchema,
-    title: NonEmptyStringSchema,
-    summary: z.string(),
-    objective: z.string(),
-    scope: z.array(NonEmptyStringSchema),
-    status: MissionStatusSchema,
-    priority: MissionPrioritySchema,
-    createdAt: TimestampSchema,
-    updatedAt: TimestampSchema,
-    createdBy: NonEmptyStringSchema,
-    ownerRole: MissionOwnerRoleSchema,
-    tags: z.array(NonEmptyStringSchema),
-    dependencyIds: z.array(NonEmptyStringSchema),
-    dispatchIds: z.array(NonEmptyStringSchema),
-    artifactIds: z.array(NonEmptyStringSchema),
-    qaGate: QAGateDecisionSchema,
-    progress: MissionProgressSchema,
-    dueAt: TimestampSchema.optional(),
-    startedAt: TimestampSchema.optional(),
-    completedAt: TimestampSchema.optional(),
-  })
-  .strict();
+export type MissionStatusCount = Record<MissionStatus, number>;
 
-export const MissionStatusCountSchema = z
-  .object({
-    status: MissionStatusSchema,
-    count: z.number().int().nonnegative(),
-  })
-  .strict();
+export interface MissionBoardSummary {
+  total: number;
+  counts: MissionStatusCount;
+  overdue: number;
+  blocked: number;
+  ready: number;
+  active: number;
+}
 
-export const MissionBoardSummarySchema = z
-  .object({
-    total: z.number().int().nonnegative(),
-    byStatus: z.array(MissionStatusCountSchema),
-    blockedMissionIds: z.array(NonEmptyStringSchema),
-    readyMissionIds: z.array(NonEmptyStringSchema),
-    inProgressMissionIds: z.array(NonEmptyStringSchema),
-    completionRate: z.number().min(0).max(1),
-  })
-  .strict();
+export interface TimelineEvent {
+  id: string;
+  entityType: TimelineEntityType;
+  entityId: string;
+  type: TimelineEventType;
+  actor: string;
+  message: string;
+  createdAt: string;
+  meta?: Record<string, string | number | boolean | null>;
+}
 
-export type MissionStatus = z.infer<typeof MissionStatusSchema>;
-export type MissionPriority = z.infer<typeof MissionPrioritySchema>;
-export type MissionOwnerRole = z.infer<typeof MissionOwnerRoleSchema>;
-export type MissionProgress = z.infer<typeof MissionProgressSchema>;
-export type TimelineEntityType = z.infer<typeof TimelineEntityTypeSchema>;
-export type TimelineEventType = z.infer<typeof TimelineEventTypeSchema>;
-export type TimelineEvent = z.infer<typeof TimelineEventSchema>;
-export type Mission = z.infer<typeof MissionSchema>;
-export type MissionStatusCount = z.infer<typeof MissionStatusCountSchema>;
-export type MissionBoardSummary = z.infer<typeof MissionBoardSummarySchema>;
+export const missionStatusSchema = z.enum(missionStatusValues);
+export const missionPrioritySchema = z.enum(missionPriorityValues);
+export const missionOwnerRoleSchema = z.enum(missionOwnerRoleValues);
+export const timelineEntityTypeSchema = z.enum(timelineEntityTypeValues);
+export const timelineEventTypeSchema = z.enum(timelineEventTypeValues);
+
+export const missionProgressSchema = z.object({
+  totalDispatches: z.number().int().nonnegative(),
+  completedDispatches: z.number().int().nonnegative(),
+  approvedDispatches: z.number().int().nonnegative(),
+  failedDispatches: z.number().int().nonnegative(),
+});
+
+export const missionSchema = z.object({
+  id: z.string().min(1),
+  code: z.string().min(1),
+  title: z.string().min(1),
+  summary: z.string().min(1),
+  objective: z.string().min(1),
+  scope: z.array(z.string()),
+  status: missionStatusSchema,
+  priority: missionPrioritySchema,
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
+  createdBy: z.string().min(1),
+  ownerRole: missionOwnerRoleSchema,
+  tags: z.array(z.string()),
+  dependencyIds: z.array(z.string()),
+  dispatchIds: z.array(z.string()),
+  artifactIds: z.array(z.string()),
+  qaGate: qaGateDecisionSchema,
+  progress: missionProgressSchema,
+  dueAt: z.string().datetime().optional(),
+  startedAt: z.string().datetime().optional(),
+  completedAt: z.string().datetime().optional(),
+  blockedReason: z.string().nullable().optional(),
+});
+
+export const missionBoardSummarySchema = z.object({
+  total: z.number().int().nonnegative(),
+  counts: z.record(missionStatusSchema, z.number().int().nonnegative()),
+  overdue: z.number().int().nonnegative(),
+  blocked: z.number().int().nonnegative(),
+  ready: z.number().int().nonnegative(),
+  active: z.number().int().nonnegative(),
+});
+
+export const timelineEventSchema = z.object({
+  id: z.string().min(1),
+  entityType: timelineEntityTypeSchema,
+  entityId: z.string().min(1),
+  type: timelineEventTypeSchema,
+  actor: z.string().min(1),
+  message: z.string().min(1),
+  createdAt: z.string().datetime(),
+  meta: z.record(z.union([z.string(), z.number(), z.boolean(), z.null()])).optional(),
+});
+
+export function createEmptyMissionStatusCount(): MissionStatusCount {
+  return {
+    draft: 0,
+    planned: 0,
+    ready: 0,
+    in_progress: 0,
+    qa_review: 0,
+    blocked: 0,
+    failed: 0,
+    done: 0,
+    cancelled: 0,
+  };
+}

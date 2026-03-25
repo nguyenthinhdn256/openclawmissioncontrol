@@ -1,9 +1,6 @@
 import { z } from "zod";
 
-const NonEmptyStringSchema = z.string().min(1);
-const TimestampSchema = z.string().min(1);
-
-export const QA_GATE_DECISIONS = [
+export const qaGateDecisionValues = [
   "pending",
   "approved",
   "needs_revision",
@@ -12,52 +9,81 @@ export const QA_GATE_DECISIONS = [
   "force_approved",
 ] as const;
 
-export const QAGateDecisionSchema = z.enum(QA_GATE_DECISIONS);
+export type QAGateDecision = (typeof qaGateDecisionValues)[number];
 
-export const QAChecklistSchema = z
-  .object({
-    schemaValid: z.boolean(),
-    fileScopeRespected: z.boolean(),
-    outputPresent: z.boolean(),
-    testsPassed: z.boolean(),
-    docsUpdated: z.boolean(),
-    noContractBreak: z.boolean(),
-  })
-  .strict();
+export interface QAChecklist {
+  schemaValid: boolean;
+  fileScopeRespected: boolean;
+  outputPresent: boolean;
+  testsPassed: boolean;
+  docsUpdated: boolean;
+  noContractBreak: boolean;
+}
 
-export const QAGateRecordSchema = z
-  .object({
-    id: NonEmptyStringSchema,
-    missionId: NonEmptyStringSchema,
-    dispatchId: NonEmptyStringSchema.optional(),
-    decision: QAGateDecisionSchema,
-    checklist: QAChecklistSchema,
-    evidence: z.array(NonEmptyStringSchema),
-    reviewer: NonEmptyStringSchema,
-    note: z.string(),
-    createdAt: TimestampSchema,
-    updatedAt: TimestampSchema.optional(),
-  })
-  .strict();
+export interface QAGateRecord {
+  id: string;
+  missionId: string;
+  dispatchId?: string;
+  decision: QAGateDecision;
+  checklist: QAChecklist;
+  evidence: string[];
+  reviewer: string;
+  note: string;
+  createdAt: string;
+}
 
-export const QADecisionCountSchema = z
-  .object({
-    decision: QAGateDecisionSchema,
-    count: z.number().int().nonnegative(),
-  })
-  .strict();
+export type QADecisionCount = Record<QAGateDecision, number>;
 
-export const QASummarySchema = z
-  .object({
-    total: z.number().int().nonnegative(),
-    byDecision: z.array(QADecisionCountSchema),
-    pendingDispatchIds: z.array(NonEmptyStringSchema),
-    failedDispatchIds: z.array(NonEmptyStringSchema),
-  })
-  .strict();
+export interface QASummary {
+  total: number;
+  pending: number;
+  approved: number;
+  needsRevision: number;
+  blocked: number;
+  failed: number;
+  forceApproved: number;
+}
 
-export type QAGateDecision = z.infer<typeof QAGateDecisionSchema>;
-export type QAChecklist = z.infer<typeof QAChecklistSchema>;
-export type QAGateRecord = z.infer<typeof QAGateRecordSchema>;
-export type QADecisionCount = z.infer<typeof QADecisionCountSchema>;
-export type QASummary = z.infer<typeof QASummarySchema>;
+export const qaGateDecisionSchema = z.enum(qaGateDecisionValues);
+
+export const qaChecklistSchema = z.object({
+  schemaValid: z.boolean(),
+  fileScopeRespected: z.boolean(),
+  outputPresent: z.boolean(),
+  testsPassed: z.boolean(),
+  docsUpdated: z.boolean(),
+  noContractBreak: z.boolean(),
+});
+
+export const qaGateRecordSchema = z.object({
+  id: z.string().min(1),
+  missionId: z.string().min(1),
+  dispatchId: z.string().min(1).optional(),
+  decision: qaGateDecisionSchema,
+  checklist: qaChecklistSchema,
+  evidence: z.array(z.string()),
+  reviewer: z.string().min(1),
+  note: z.string(),
+  createdAt: z.string().datetime(),
+});
+
+export const qaSummarySchema = z.object({
+  total: z.number().int().nonnegative(),
+  pending: z.number().int().nonnegative(),
+  approved: z.number().int().nonnegative(),
+  needsRevision: z.number().int().nonnegative(),
+  blocked: z.number().int().nonnegative(),
+  failed: z.number().int().nonnegative(),
+  forceApproved: z.number().int().nonnegative(),
+});
+
+export function createEmptyQADecisionCount(): QADecisionCount {
+  return {
+    pending: 0,
+    approved: 0,
+    needs_revision: 0,
+    blocked: 0,
+    failed: 0,
+    force_approved: 0,
+  };
+}

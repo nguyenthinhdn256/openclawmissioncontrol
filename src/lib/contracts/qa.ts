@@ -1,79 +1,37 @@
 import { z } from "zod";
+import { qaGateDecisions } from "@/types/qa";
 
-export const qaGateDecisionValues = [
-  "pending",
-  "approved",
-  "needs_revision",
-  "blocked",
-  "failed",
-  "force_approved",
-] as const;
+export const qaGateDecisionSchema = z.enum(qaGateDecisions);
 
-export const qaGateDecisionSchema = z.enum(qaGateDecisionValues);
-
-export const qaChecklistSchema = z.object({
-  schemaValid: z.boolean(),
-  fileScopeRespected: z.boolean(),
-  outputPresent: z.boolean(),
-  testsPassed: z.boolean(),
-  docsUpdated: z.boolean(),
-  noContractBreak: z.boolean(),
+export const qaCheckItemSchema = z.object({
+  label: z.string().min(1),
+  done: z.boolean(),
 });
 
-export const qaChecklistTemplateSchema = z.object({
-  defaults: qaChecklistSchema,
-  requiredWhen: z.object({
-    testsPassed: z.boolean().default(true),
-    docsUpdated: z.boolean().default(false),
-  }),
-});
-
-export const qaGateRecordSchema = z.object({
+export const qaReviewSchema = z.object({
   id: z.string().min(1),
   missionId: z.string().min(1),
   dispatchId: z.string().min(1).optional(),
-  decision: qaGateDecisionSchema,
-  checklist: qaChecklistSchema,
-  evidence: z.array(z.string()).default([]),
+  title: z.string().min(1),
   reviewer: z.string().min(1),
-  note: z.string(),
-  createdAt: z.string().min(1),
+  submittedAt: z.string().min(1),
   updatedAt: z.string().min(1),
-  forceApprovedBy: z.string().optional(),
-  forceApprovedReason: z.string().optional(),
+  decision: qaGateDecisionSchema,
+  checklist: z.array(qaCheckItemSchema),
+  evidence: z.array(z.string()),
+  notes: z.array(z.string()),
+  blocker: z.string().optional(),
 });
-
-export const qaDecisionCountSchema = z.object(
-  Object.fromEntries(qaGateDecisionValues.map((value) => [value, z.number().int().nonnegative()])) as Record<
-    (typeof qaGateDecisionValues)[number],
-    z.ZodNumber
-  >,
-);
 
 export const qaSummarySchema = z.object({
   total: z.number().int().nonnegative(),
+  byDecision: z.record(qaGateDecisionSchema, z.number().int().nonnegative()),
   pendingCount: z.number().int().nonnegative(),
-  approvedCount: z.number().int().nonnegative(),
-  failedCount: z.number().int().nonnegative(),
+  revisionCount: z.number().int().nonnegative(),
   blockedCount: z.number().int().nonnegative(),
-  needsRevisionCount: z.number().int().nonnegative(),
-  byDecision: qaDecisionCountSchema,
+  approvedCount: z.number().int().nonnegative(),
 });
 
-export type QAGateDecision = z.infer<typeof qaGateDecisionSchema>;
-export type QAChecklist = z.infer<typeof qaChecklistSchema>;
-export type QAChecklistTemplate = z.infer<typeof qaChecklistTemplateSchema>;
-export type QAGateRecord = z.infer<typeof qaGateRecordSchema>;
-export type QADecisionCount = z.infer<typeof qaDecisionCountSchema>;
+export type QACheckItem = z.infer<typeof qaCheckItemSchema>;
+export type QAReview = z.infer<typeof qaReviewSchema>;
 export type QASummary = z.infer<typeof qaSummarySchema>;
-
-export function createEmptyQADecisionCount(): QADecisionCount {
-  return {
-    pending: 0,
-    approved: 0,
-    needs_revision: 0,
-    blocked: 0,
-    failed: 0,
-    force_approved: 0,
-  };
-}

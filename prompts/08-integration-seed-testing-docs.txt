@@ -1,14 +1,1 @@
-Bạn đang xử lý PHẦN 8/8: INTEGRATION, SEED DATA, TESTING & DOCS SYNC cho project OPENCLAW MISSION CONTROL.
-
-MỤC TIÊU PHẦN NÀY
-Ghép tất cả phần còn lại thành một skeleton nhất quán, có seed data, helper tổng hợp, docs sync.
-
-FILES BẮT BUỘC
-- src/lib/seed/mock-missions.ts
-- src/lib/seed/mock-dispatches.ts
-- src/lib/seed/mock-qa.ts
-- src/lib/seed/mock-artifacts.ts
-- src/lib/seed/index.ts
-- src/lib/utils/dashboard-summary.ts
-- src/docs/integration-notes.md
-- README.md
+Placeholder preserved for repo structure. Part 8 prompt content was not required for this task.

@@ -1,0 +1,56 @@
+import { qaReviewSchema } from "@/lib/contracts/qa";
+
+export const qaReviewsMock = qaReviewSchema.array().parse([
+  {
+    id: "qa-1",
+    missionId: "mis-001",
+    dispatchId: "dis-102",
+    title: "Dispatch row review",
+    reviewer: "QA Operator",
+    submittedAt: "2026-03-25 21:26",
+    updatedAt: "2026-03-25 21:33",
+    decision: "needs_revision",
+    checklist: [
+      { label: "Typed props used", done: true },
+      { label: "Spacing is readable", done: true },
+      { label: "Ready for page-layer reuse", done: false },
+    ],
+    evidence: ["Visual comparison note", "Props contract checklist"],
+    notes: ["Increase information density without reducing scanability."],
+    blocker: "Need final page-level validation.",
+  },
+  {
+    id: "qa-2",
+    missionId: "mis-001",
+    dispatchId: "dis-101",
+    title: "Mission card review",
+    reviewer: "Commander",
+    submittedAt: "2026-03-25 21:14",
+    updatedAt: "2026-03-25 21:18",
+    decision: "approved",
+    checklist: [
+      { label: "Mission status visible", done: true },
+      { label: "Progress visible", done: true },
+      { label: "Blockers visible", done: true },
+    ],
+    evidence: ["Component props reviewed", "UI scan pass complete"],
+    notes: ["Ready for missions page assembly."],
+  },
+  {
+    id: "qa-3",
+    missionId: "mis-003",
+    dispatchId: "dis-104",
+    title: "Seed integration review",
+    reviewer: "Commander",
+    submittedAt: "2026-03-26 00:02",
+    updatedAt: "2026-03-26 00:06",
+    decision: "pending",
+    checklist: [
+      { label: "Seed files match contracts", done: true },
+      { label: "Dashboard helper wired", done: true },
+      { label: "README synced", done: false },
+    ],
+    evidence: ["Seed parse output", "Dashboard summary helper review"],
+    notes: ["Awaiting final README and integration notes sync."],
+  },
+]);

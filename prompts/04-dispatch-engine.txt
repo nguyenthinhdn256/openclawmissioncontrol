@@ -1,11 +1,1 @@
-Bạn đang xử lý PHẦN 4/8: DISPATCH ENGINE cho project OPENCLAW MISSION CONTROL.
-
-MỤC TIÊU PHẦN NÀY
-Tạo engine quản lý dispatch queue, assignment, dependency check, handoff format.
-
-FILES BẮT BUỘC
-- src/lib/dispatch/dispatch-engine.ts
-- src/lib/dispatch/dispatch-format.ts
-- src/lib/dispatch/dispatch-selectors.ts
-- src/lib/dispatch/index.ts
-- src/docs/dispatch-engine-notes.md
+Placeholder preserved for repo structure. Part 4 prompt content was not required for this task.

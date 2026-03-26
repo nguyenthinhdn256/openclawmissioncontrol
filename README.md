@@ -1,28 +1,107 @@
-# OpenClaw Mission Control Kit
+# OpenClaw Mission Control
 
-This package contains:
+Mission Control dashboard for OpenClaw built with Next.js, TypeScript, Tailwind CSS, and Zod.
 
-- research notes
-- a full Mission Control specification
-- a runnable Next.js skeleton
-- coordinated prompts for parallel coding
-- a one-time install command file
+## Goal
 
-## Suggested flow
+This repo provides a modular Mission Control shell that models:
+- missions
+- dispatches
+- QA gates
+- artifacts
+- operator-facing dashboard flows
 
-1. Extract the zip.
-2. Open a terminal in the project root.
-3. Run the commands in `install-once.txt`.
-4. Start the skeleton with `npm run dev`.
-5. Open the files in `prompts/` and run each prompt in a separate ChatGPT tab.
-6. Merge the returned files into the exact matching paths.
+Part 8 centralizes mock data into `src/lib/seed`, adds dashboard summary helpers, and syncs documentation so the project can be assembled consistently after parallel tab execution.
 
-## Folder overview
+## Stack
 
-- `docs/`: research + spec
-- `prompts/`: master context + 8 coordinated prompts
-- `src/`: modular app skeleton plus contracts, dispatch, QA logic, and dashboard boards
+- Next.js 14+
+- TypeScript
+- App Router
+- Tailwind CSS
+- Zod
 
-## Important
+## Folder structure
 
-This repo remains lightweight and mock-driven. Contracts, selectors, and dashboard pages are wired so Part 7 can run now and Part 8 can later swap in centralized seed files without rewriting page modules.
+```text
+src/
+  app/
+    layout.tsx
+    page.tsx
+    globals.css
+    artifacts/page.tsx
+    dispatches/page.tsx
+    missions/page.tsx
+    qa/page.tsx
+    settings/page.tsx
+  components/
+    layout/
+    dashboard/
+    missions/
+    dispatches/
+    qa/
+    artifacts/
+    settings/
+    shared/
+  lib/
+    config/
+    contracts/
+    state/
+    dispatch/
+    qa/
+    seed/
+    utils/
+  types/
+  docs/
+```
+
+## Included
+
+- app shell with sidebar + topbar
+- reusable dashboard cards and boards
+- shared types + Zod contracts
+- mission/dispatch/QA/artifact helpers
+- centralized seed data
+- dashboard summary aggregation helper
+- integration notes for the 8-part workflow
+
+## Run
+
+```bash
+npm install
+npm run dev
+```
+
+Then open `http://localhost:3000`.
+
+## Verify
+
+```bash
+npm run typecheck
+npm run lint
+npm run build
+```
+
+Or run:
+
+```bash
+npm run verify
+```
+
+## Seed data
+
+Centralized mock records live in:
+- `src/lib/seed/mock-missions.ts`
+- `src/lib/seed/mock-dispatches.ts`
+- `src/lib/seed/mock-qa.ts`
+- `src/lib/seed/mock-artifacts.ts`
+
+Those files are validated against Zod schemas from `src/lib/contracts` before export.
+
+## Notes for multi-tab assembly
+
+- Shared types live in `src/types`
+- Runtime-safe schemas live in `src/lib/contracts`
+- Board pages consume centralized seeds from `src/lib/seed`
+- Dashboard rollups come from `src/lib/utils/dashboard-summary`
+- `src/docs/integration-notes.md` explains the final glue layer

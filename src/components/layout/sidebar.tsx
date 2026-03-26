@@ -2,17 +2,25 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Boxes, CheckCheck, FolderKanban, LayoutDashboard, Send, Settings2 } from "lucide-react";
+import {
+  Flag,
+  FolderKanban,
+  LayoutDashboard,
+  PackageSearch,
+  Settings2,
+  ShieldCheck,
+} from "lucide-react";
 import { primaryNavigation } from "@/lib/config/navigation";
-import type { NavigationIconKey } from "@/types/navigation";
+import { siteConfig } from "@/lib/config/site";
 import { cn } from "@/lib/utils/cn";
+import type { NavigationIconKey } from "@/types/navigation";
 
-const icons: Record<NavigationIconKey, typeof LayoutDashboard> = {
+const iconMap: Record<NavigationIconKey, typeof LayoutDashboard> = {
   overview: LayoutDashboard,
-  missions: FolderKanban,
-  dispatches: Send,
-  qa: CheckCheck,
-  artifacts: Boxes,
+  missions: Flag,
+  dispatches: FolderKanban,
+  qa: ShieldCheck,
+  artifacts: PackageSearch,
   settings: Settings2,
 };
 
@@ -20,57 +28,62 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden w-80 shrink-0 border-r border-slate-800 bg-slate-950 lg:block">
-      <div className="flex h-full flex-col px-4 py-6">
-        <div className="mb-6 rounded-3xl border border-slate-800 bg-slate-900/70 p-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-300">Operator shell</p>
-          <h2 className="mt-2 text-lg font-semibold text-white">Command surfaces</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-400">
-            Route operators across missions, dispatches, QA gates, artifacts, and configuration without leaving the control plane.
-          </p>
+    <aside className="sticky top-0 hidden h-screen w-80 shrink-0 border-r border-white/10 bg-slate-950/80 px-5 py-6 backdrop-blur lg:flex lg:flex-col">
+      <div className="mb-8 space-y-3 rounded-3xl border border-sky-400/20 bg-sky-400/10 p-5">
+        <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-400/20 text-sky-200">
+          OpenClaw
         </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-300">Operator console</p>
+          <h2 className="text-xl font-semibold text-white">{siteConfig.shortName}</h2>
+        </div>
+        <p className="text-sm leading-6 text-slate-300">{siteConfig.sidebarSummary}</p>
+      </div>
 
-        <nav className="space-y-2">
-          {primaryNavigation.map((item) => {
-            const Icon = icons[item.icon];
-            const isActive = pathname === item.href;
+      <nav className="space-y-2">
+        {primaryNavigation.map((item) => {
+          const Icon = iconMap[item.icon];
+          const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
 
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "group flex items-start gap-3 rounded-2xl border px-4 py-3 transition",
-                  isActive
-                    ? "border-cyan-800 bg-cyan-950/50 text-white"
-                    : "border-transparent bg-slate-950 text-slate-300 hover:border-slate-800 hover:bg-slate-900",
-                )}
-              >
-                <span
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                "block rounded-2xl border px-4 py-3 transition",
+                isActive
+                  ? "border-sky-400/30 bg-sky-400/10 text-white"
+                  : "border-white/5 bg-white/0 text-slate-300 hover:border-white/15 hover:bg-white/5",
+              )}
+            >
+              <div className="flex items-center gap-3">
+                <div
                   className={cn(
-                    "mt-0.5 rounded-xl border p-2",
-                    isActive
-                      ? "border-cyan-700 bg-cyan-900/60 text-cyan-200"
-                      : "border-slate-800 bg-slate-900 text-slate-400 group-hover:text-slate-200",
+                    "inline-flex h-10 w-10 items-center justify-center rounded-xl",
+                    isActive ? "bg-sky-400/20 text-sky-200" : "bg-white/5 text-slate-300",
                   )}
                 >
-                  <Icon className="size-4" />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="flex items-center gap-2">
-                    <span className="text-sm font-semibold">{item.title}</span>
-                    {item.badge ? (
-                      <span className="rounded-full border border-cyan-800 bg-cyan-950/50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-200">
-                        {item.badge}
-                      </span>
-                    ) : null}
-                  </span>
-                  <span className="mt-1 block text-xs leading-5 text-slate-400">{item.description}</span>
-                </span>
-              </Link>
-            );
-          })}
-        </nav>
+                  <Icon className="h-5 w-5" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium">{item.title}</p>
+                    {item.badge ? <span className="text-xs text-slate-400">{item.badge}</span> : null}
+                  </div>
+                  <p className="text-xs leading-5 text-slate-400">{item.description}</p>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
+      </nav>
+
+      <div className="mt-auto rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-300">
+        <p className="font-medium text-white">{siteConfig.versionLabel}</p>
+        <p className="mt-2 leading-6">
+          Foundation shell and dashboard UI components are in place so the next tabs can focus on contracts,
+          engines, boards, and seed integration.
+        </p>
       </div>
     </aside>
   );

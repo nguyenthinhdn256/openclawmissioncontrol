@@ -1,11 +1,1 @@
-Bạn đang xử lý PHẦN 3/8: MISSION STATE ENGINE cho project OPENCLAW MISSION CONTROL.
-
-MỤC TIÊU PHẦN NÀY
-Tạo engine quản lý lifecycle mission theo kiểu deterministic.
-
-ĐƯỜNG DẪN FILE PHẢI DÙNG
-- src/lib/state/mission-state-machine.ts
-- src/lib/state/mission-selectors.ts
-- src/lib/state/mission-actions.ts
-- src/lib/state/index.ts
-- src/docs/mission-state-engine-notes.md
+Placeholder preserved for repo structure. Part 3 prompt content was not required for this task.

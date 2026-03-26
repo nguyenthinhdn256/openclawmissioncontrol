@@ -1,16 +1,10 @@
-import type { QAChecklistTemplate } from "@/lib/contracts";
+import type { QACheckItem } from "@/types/qa";
 
-export const defaultQAChecklistTemplate: QAChecklistTemplate = {
-  defaults: {
-    schemaValid: true,
-    fileScopeRespected: true,
-    outputPresent: true,
-    testsPassed: true,
-    docsUpdated: false,
-    noContractBreak: true,
-  },
-  requiredWhen: {
-    testsPassed: true,
-    docsUpdated: false,
-  },
-};
+export function getChecklistCompletion(checklist: QACheckItem[]) {
+  if (checklist.length === 0) {
+    return 0;
+  }
+
+  const done = checklist.filter((item) => item.done).length;
+  return Math.round((done / checklist.length) * 100);
+}

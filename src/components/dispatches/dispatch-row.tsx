@@ -1,68 +1,60 @@
-import { GitBranch, RefreshCcw, User2 } from "lucide-react";
+import { GitBranch, RotateCcw, Timer } from "lucide-react";
 import { StatusBadge } from "@/components/shared/status-badge";
-import { cn } from "@/lib/utils/cn";
 import type { DispatchItem } from "@/types/dispatch";
 
-export interface DispatchRowProps {
-  dispatch: DispatchItem;
-  className?: string;
-}
-
-export function DispatchRow({ dispatch, className }: DispatchRowProps) {
+export function DispatchRow({ dispatch }: { dispatch: DispatchItem }) {
   return (
-    <div className={cn("grid gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 lg:grid-cols-[1.5fr_1fr_1fr_1fr]", className)}>
-      <div className="space-y-2">
-        <div className="flex flex-wrap items-center gap-2">
-          <h3 className="font-medium text-white">{dispatch.title}</h3>
-          <StatusBadge label={dispatch.status} />
-        </div>
-        <p className="text-sm leading-6 text-slate-300">{dispatch.summary}</p>
-        <div className="flex flex-wrap gap-2">
-          {dispatch.scope.map((entry) => (
-            <span key={entry} className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-slate-300">
-              {entry}
+    <article className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-soft">
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.14em] text-slate-300">
+              {dispatch.domain.replaceAll("_", " ")}
             </span>
-          ))}
-        </div>
-      </div>
-
-      <div className="space-y-3 text-sm text-slate-300">
-        <div className="flex items-center gap-2">
-          <User2 className="h-4 w-4 text-slate-400" />
-          <span>{dispatch.assignee}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <RefreshCcw className="h-4 w-4 text-slate-400" />
-          <span>{dispatch.attemptCount} attempt(s)</span>
-        </div>
-        <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Updated {dispatch.updatedAt}</p>
-      </div>
-
-      <div className="space-y-3 text-sm text-slate-300">
-        <div className="flex items-center gap-2">
-          <GitBranch className="h-4 w-4 text-slate-400" />
-          <span>{dispatch.dependencies.length} dependency</span>
-        </div>
-        {dispatch.dependencies.length > 0 ? (
-          <div className="flex flex-wrap gap-2">
-            {dispatch.dependencies.map((dependency) => (
-              <span key={dependency} className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-slate-300">
-                {dependency}
-              </span>
-            ))}
+            <StatusBadge status={dispatch.status} />
           </div>
-        ) : (
-          <p className="text-xs uppercase tracking-[0.18em] text-slate-500">No blockers from dependencies</p>
-        )}
+          <h3 className="text-lg font-semibold text-white">{dispatch.title}</h3>
+          <p className="text-sm leading-6 text-slate-300">{dispatch.summary}</p>
+        </div>
+        <div className="rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-sm text-slate-300">
+          <p className="text-xs uppercase tracking-[0.14em] text-slate-400">Assignee</p>
+          <p className="mt-2 font-medium text-white">{dispatch.assignee}</p>
+        </div>
       </div>
 
-      <div className="space-y-2 text-sm text-slate-300">
-        <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Output</p>
-        <p className="leading-6">{dispatch.outputSummary ?? "Awaiting execution output."}</p>
-        <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
-          {dispatch.dueAt ? `Due ${dispatch.dueAt}` : "No due date"}
-        </p>
+      <div className="mt-5 grid gap-4 md:grid-cols-3">
+        <div className="rounded-2xl border border-white/10 bg-slate-950/40 p-4">
+          <div className="flex items-center gap-2 text-slate-300">
+            <GitBranch className="h-4 w-4" />
+            Dependencies
+          </div>
+          <p className="mt-2 text-sm text-white">{dispatch.dependencies.length ? dispatch.dependencies.join(", ") : "None"}</p>
+        </div>
+        <div className="rounded-2xl border border-white/10 bg-slate-950/40 p-4">
+          <div className="flex items-center gap-2 text-slate-300">
+            <RotateCcw className="h-4 w-4" />
+            Attempts
+          </div>
+          <p className="mt-2 text-2xl font-semibold text-white">{dispatch.attemptCount}</p>
+        </div>
+        <div className="rounded-2xl border border-white/10 bg-slate-950/40 p-4">
+          <div className="flex items-center gap-2 text-slate-300">
+            <Timer className="h-4 w-4" />
+            Updated
+          </div>
+          <p className="mt-2 text-sm text-white">{dispatch.updatedAt}</p>
+        </div>
       </div>
-    </div>
+
+      <div className="mt-5 flex flex-wrap gap-2">
+        {dispatch.scope.map((entry) => (
+          <span key={entry} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">
+            {entry}
+          </span>
+        ))}
+      </div>
+
+      {dispatch.outputSummary ? <p className="mt-4 text-sm leading-6 text-slate-300">{dispatch.outputSummary}</p> : null}
+    </article>
   );
 }

@@ -1,19 +1,5 @@
-import type { QAGateDecision, QAGateRecord } from "@/lib/contracts";
+import type { QAGateDecision } from "@/types/qa";
 
-export function evaluateChecklist(record: QAGateRecord): QAGateDecision {
-  const checklist = record.checklist;
-
-  if (!checklist.schemaValid || !checklist.noContractBreak) {
-    return "failed";
-  }
-
-  if (!checklist.fileScopeRespected || !checklist.outputPresent) {
-    return "blocked";
-  }
-
-  if (!checklist.testsPassed || !checklist.docsUpdated) {
-    return "needs_revision";
-  }
-
-  return "approved";
+export function isQAFinal(decision: QAGateDecision) {
+  return ["approved", "failed", "force_approved"].includes(decision);
 }

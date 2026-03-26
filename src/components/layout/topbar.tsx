@@ -1,38 +1,26 @@
-import { Activity, Orbit, Sparkles } from "lucide-react";
-import { StatusBadge } from "@/components/shared/status-badge";
 import { siteConfig } from "@/lib/config/site";
+import { StatusBadge } from "@/components/shared/status-badge";
 
 export function Topbar() {
   return (
-    <header className="panel-surface flex flex-col gap-4 p-5 lg:flex-row lg:items-center lg:justify-between">
-      <div className="space-y-2">
-        <div className="flex items-center gap-2 text-slate-400">
-          <Orbit className="h-4 w-4" />
-          <span className="text-xs font-semibold uppercase tracking-[0.22em]">{siteConfig.shortName}</span>
+    <header className="sticky top-0 z-20 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur">
+      <div className="flex min-h-16 items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+        <div className="space-y-1">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-300">
+            {siteConfig.releaseChannel}
+          </p>
+          <div>
+            <h2 className="text-sm font-semibold text-white sm:text-base">{siteConfig.name}</h2>
+            <p className="text-xs text-slate-400 sm:text-sm">{siteConfig.commandFocus}</p>
+          </div>
         </div>
-        <div>
-          <p className="text-2xl font-semibold tracking-tight text-white">Operations Console</p>
-          <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-300">{siteConfig.description}</p>
-        </div>
-      </div>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3">
-          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-slate-400">
-            <Activity className="h-4 w-4" />
-            System signal
+        <div className="flex flex-wrap items-center gap-3">
+          <StatusBadge label={siteConfig.systemSignal.label} tone={siteConfig.systemSignal.tone} />
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/80 px-3 py-2 text-right">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Version</p>
+            <p className="text-sm font-medium text-slate-200">{siteConfig.versionLabel}</p>
           </div>
-          <div className="mt-2 flex items-center gap-3">
-            <StatusBadge label={siteConfig.systemSignal.label} tone={siteConfig.systemSignal.tone} />
-            <span className="text-sm text-slate-300">{siteConfig.commandStatus}</span>
-          </div>
-        </div>
-        <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3">
-          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-slate-400">
-            <Sparkles className="h-4 w-4" />
-            Focus
-          </div>
-          <p className="mt-2 text-sm text-slate-300">{siteConfig.commandFocus}</p>
         </div>
       </div>
     </header>

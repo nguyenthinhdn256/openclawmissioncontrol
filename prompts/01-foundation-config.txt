@@ -1,1 +1,39 @@
-Placeholder preserved for repo structure. Part 1 prompt content was not required for this task.
+Bạn đang xử lý PHẦN 1/8: FOUNDATION & CONFIG cho project OPENCLAW MISSION CONTROL.
+
+MỤC TIÊU PHẦN NÀY
+Tạo bộ khung nền tảng để project có thể chạy được ngay ở mức skeleton:
+- app shell
+- config constants
+- utility helpers
+- base layout
+- global styles
+- reusable shell container
+- navigation config
+- dashboard overview mock entry
+
+BẠN PHẢI BÁM ĐÚNG CẤU TRÚC
+src/
+  app/
+  components/
+    layout/
+    shared/
+  lib/
+    config/
+    utils/
+  types/
+  docs/
+
+FILES BẮT BUỘC TẠO / HOÀN THIỆN
+- src/app/layout.tsx
+- src/app/page.tsx
+- src/app/globals.css
+- src/components/layout/app-shell.tsx
+- src/components/layout/topbar.tsx
+- src/components/layout/sidebar.tsx
+- src/components/shared/page-header.tsx
+- src/components/shared/status-badge.tsx
+- src/lib/config/site.ts
+- src/lib/config/navigation.ts
+- src/lib/utils/cn.ts
+- src/types/navigation.ts
+- src/docs/foundation-notes.md

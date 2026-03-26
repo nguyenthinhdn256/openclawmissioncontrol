@@ -1,1 +1,1 @@
-export * from "@/components/settings/settings-panel";
+export * from "@/components/settings/settings-board";

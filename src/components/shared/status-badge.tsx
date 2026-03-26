@@ -1,59 +1,34 @@
 import { cn } from "@/lib/utils/cn";
 
-type StatusTone = "neutral" | "active" | "success" | "warning" | "danger";
+type StatusTone = "neutral" | "info" | "success" | "warning" | "danger" | "muted";
 
-const toneMap: Record<StatusTone, string> = {
-  neutral: "border-white/10 bg-white/5 text-slate-200",
-  active: "border-sky-400/20 bg-sky-400/10 text-sky-200",
-  success: "border-emerald-400/20 bg-emerald-400/10 text-emerald-200",
-  warning: "border-amber-400/20 bg-amber-400/10 text-amber-200",
-  danger: "border-rose-400/20 bg-rose-400/10 text-rose-200",
+const toneClasses: Record<StatusTone, string> = {
+  neutral: "border-slate-700 bg-slate-900 text-slate-200",
+  info: "border-cyan-800 bg-cyan-950/70 text-cyan-200",
+  success: "border-emerald-800 bg-emerald-950/70 text-emerald-200",
+  warning: "border-amber-700 bg-amber-950/70 text-amber-200",
+  danger: "border-rose-800 bg-rose-950/70 text-rose-200",
+  muted: "border-slate-800 bg-slate-950 text-slate-400",
 };
 
-const inferredToneMap: Record<string, StatusTone> = {
-  draft: "neutral",
-  planned: "neutral",
-  ready: "success",
-  in_progress: "active",
-  working: "active",
-  assigned: "active",
-  queued: "warning",
-  submitted: "active",
-  qa_review: "warning",
-  needs_revision: "danger",
-  approved: "success",
-  done: "success",
-  force_approved: "warning",
-  blocked: "danger",
-  failed: "danger",
-  cancelled: "neutral",
-  review: "warning",
-  archived: "neutral",
-  live: "success",
-};
-
-export interface StatusBadgeProps {
+export function StatusBadge({
+  label,
+  tone = "neutral",
+  className,
+}: {
   label: string;
   tone?: StatusTone;
   className?: string;
-}
-
-function normalizeLabel(label: string) {
-  return label.replace(/_/g, " ");
-}
-
-export function StatusBadge({ label, tone, className }: StatusBadgeProps) {
-  const resolvedTone = tone ?? inferredToneMap[label] ?? "neutral";
-
+}) {
   return (
     <span
       className={cn(
         "inline-flex items-center rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]",
-        toneMap[resolvedTone],
+        toneClasses[tone],
         className,
       )}
     >
-      {normalizeLabel(label)}
+      {label.replaceAll("_", " ")}
     </span>
   );
 }

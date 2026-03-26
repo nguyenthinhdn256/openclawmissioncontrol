@@ -1,1 +1,1 @@
-export * from "@/components/qa/qa-review-card";
+export * from "@/components/qa/qa-board";

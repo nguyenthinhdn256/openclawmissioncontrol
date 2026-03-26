@@ -1,1 +1,15 @@
-Placeholder preserved for repo structure. Part 5 prompt content was not required for this task.
+Bạn đang xử lý PHẦN 5/8: QA GATE ENGINE cho project OPENCLAW MISSION CONTROL.
+
+MỤC TIÊU PHẦN NÀY
+Tạo logic review dispatch và mission ở mức QA gate.
+
+FILES BẮT BUỘC
+- src/lib/qa/qa-gate.ts
+- src/lib/qa/qa-checklists.ts
+- src/lib/qa/qa-selectors.ts
+- src/lib/qa/index.ts
+- src/docs/qa-gate-notes.md
+
+PHỤ THUỘC ĐẦU VÀO
+- QAGateRecord / Dispatch / Mission contracts
+- Dispatch engine format

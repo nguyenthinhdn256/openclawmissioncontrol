@@ -2,17 +2,15 @@ import type { ReactNode } from "react";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Topbar } from "@/components/layout/topbar";
 
-export function AppShell({ children }: { children: ReactNode }) {
+export function AppShell({ children }: { children?: ReactNode }) {
   return (
-    <div className="min-h-screen p-4 md:p-6">
-      <div className="mx-auto grid max-w-[1600px] gap-4 xl:grid-cols-[320px_minmax(0,1fr)]">
-        <div className="xl:sticky xl:top-6 xl:h-[calc(100vh-3rem)]">
-          <Sidebar />
-        </div>
-        <main className="space-y-4">
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      <div className="flex min-h-screen">
+        <Sidebar />
+        <div className="flex min-h-screen min-w-0 flex-1 flex-col">
           <Topbar />
-          <div className="space-y-4">{children}</div>
-        </main>
+          <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">{children}</main>
+        </div>
       </div>
     </div>
   );

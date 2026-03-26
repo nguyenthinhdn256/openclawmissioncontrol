@@ -1,34 +1,26 @@
-import type { ReactNode } from "react";
-import { cn } from "@/lib/utils/cn";
-
-export interface PageHeaderProps {
-  eyebrow?: string;
-  title: string;
-  description?: string;
-  badge?: ReactNode;
-  actions?: ReactNode;
-  className?: string;
-}
+import { StatusBadge } from "@/components/shared/status-badge";
 
 export function PageHeader({
   eyebrow,
   title,
   description,
   badge,
-  actions,
-  className,
-}: PageHeaderProps) {
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+  badge?: { label: string; tone?: "neutral" | "info" | "success" | "warning" | "danger" | "muted" };
+}) {
   return (
-    <div className={cn("flex flex-col gap-4 rounded-3xl border border-white/10 bg-white/[0.03] p-6 md:flex-row md:items-start md:justify-between", className)}>
-      <div className="space-y-3">
-        {eyebrow ? <p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-300">{eyebrow}</p> : null}
-        <div className="flex flex-wrap items-center gap-3">
-          <h1 className="text-2xl font-semibold tracking-tight text-white md:text-3xl">{title}</h1>
-          {badge}
-        </div>
-        {description ? <p className="max-w-3xl text-sm leading-6 text-slate-300 md:text-base">{description}</p> : null}
+    <div className="flex flex-col gap-4 rounded-3xl border border-slate-800 bg-slate-950/70 p-6 shadow-[0_0_0_1px_rgba(15,23,42,0.4)]">
+      <div className="flex flex-wrap items-center gap-3">
+        <span className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">{eyebrow}</span>
+        {badge ? <StatusBadge label={badge.label} tone={badge.tone} /> : null}
       </div>
-      {actions ? <div className="flex shrink-0 items-center gap-3">{actions}</div> : null}
+      <div className="space-y-2">
+        <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">{title}</h1>
+        <p className="max-w-3xl text-sm leading-6 text-slate-300 sm:text-base">{description}</p>
+      </div>
     </div>
   );
 }

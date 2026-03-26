@@ -1,3 +1,12 @@
 # Run once from the project root
 npm install
+npm install zod clsx tailwind-merge lucide-react
+npm install -D typescript @types/node @types/react @types/react-dom
+npm install -D eslint eslint-config-next
+npm install -D tailwindcss postcss autoprefixer
+npm install -D prettier
+
+# Optional checks
+npm run typecheck
+npm run build
 npm run dev

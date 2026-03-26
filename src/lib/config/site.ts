@@ -4,14 +4,14 @@ export const siteConfig = {
   description:
     "Operator-facing dashboard for orchestrating missions, dispatches, QA gates, and artifacts on top of OpenClaw.",
   version: "0.1.0",
-  versionLabel: "Dashboard UI Framework v0.1.0",
-  releaseChannel: "Dark control-center shell",
-  commandStatus: "UI framework active",
-  commandFocus: "Ready for pages and flows",
+  versionLabel: "Mission Control v0.1.0",
+  releaseChannel: "Dashboard Pages & Flows",
+  commandStatus: "Mock-driven, selector-ready",
+  commandFocus: "Part 7 boards wired to typed contracts",
   sidebarSummary:
     "A modular shell for routing Mission, Dispatch, QA, Artifact, and Settings surfaces without layout drift.",
   systemSignal: {
-    label: "Mission Control ready",
+    label: "Gateway healthy",
     tone: "success" as const,
   },
 } as const;
